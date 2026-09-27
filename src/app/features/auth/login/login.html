@@ -1,1 +1,53 @@
-<p>login works!</p>
+<div class="min-h-screen flex justify-center items-center bg-gray-950 px-4">
+  <div class="bg-gray-900 border border-gray-800 max-w-lg w-full p-8 rounded-xl shadow-lg">
+
+    <!-- Logo + app name -->
+    <div class="flex gap-3 items-center mb-8">
+      <div class="bg-indigo-500/10 rounded-lg p-2.5">
+        <svg lucideLayoutGrid class="text-indigo-400 w-6 h-6"></svg>
+      </div>
+      <span class="text-xl font-semibold text-white">CollabWorkspace</span>
+    </div>
+
+    <p class="text-base text-gray-400 mb-7">Log in to your account</p>
+
+    <form [formGroup]="logInForm" class="mb-5">
+      <!-- Email -->
+      <label class="block text-sm text-gray-400 mb-2">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="name@company.com"
+        class="w-full mb-5 px-4 py-3 text-base bg-gray-800 border border-gray-700 rounded-lg
+               text-white placeholder-gray-500
+               focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+      >
+
+      <!-- Password -->
+      <label class="block text-sm text-gray-400 mb-2">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="••••••••"
+        class="w-full mb-6 px-4 py-3 text-base bg-gray-800 border border-gray-700 rounded-lg
+               text-white placeholder-gray-500
+               focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+      >
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="w-full bg-indigo-500 text-white text-base font-medium py-3 rounded-lg
+               hover:bg-indigo-400 transition-colors cursor-pointer"
+      >
+        Log in
+      </button>
+    </form>
+
+    <p class="text-sm text-gray-400 text-center mt-5">
+      No account?
+      <a href="#" class="text-indigo-400 hover:underline">Create one</a>
+    </p>
+
+  </div>
+</div>
