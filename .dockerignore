@@ -1,0 +1,26 @@
+# Dependency directories 
+node_modules/
+.npm/
+
+# Local build outputs
+dist/
+.angular/
+
+# Source Control & Configuration secrets
+.git
+.gitignore
+.env
+Dockerfile
+nginx.conf
+
+# IDE and System Files
+.editorconfig
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+Thumbs.db
+.DS_Store
