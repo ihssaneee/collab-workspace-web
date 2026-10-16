@@ -11,7 +11,7 @@
 
     <p class="text-base text-gray-400 mb-7">Log in to your account</p>
 
-    <form [formGroup]="logInForm" class="mb-5">
+    <form [formGroup]="logInForm" (ngSubmit)="onSubmit()" novalidate class="mb-5">
 
       <label class="block text-sm text-gray-400 mb-2">Email</label>
       <input
@@ -34,14 +34,25 @@
                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
       >
 
+    
+    
+        <button
+          type="submit"
+          [disabled]="logInForm.invalid || isLoading()"
+          class="w-full bg-indigo-500 text-white text-base font-medium py-3 rounded-lg
+                 hover:bg-indigo-400 transition-colors cursor-pointer"
+        > 
+            @if (isLoading()) {
+              <svg lucideLoader class="animate-spin w-5 h-5 mx-auto"></svg>
+            } @else {
+              Log in
+            }
+          
+        </button>
       
-      <button
-        type="submit"
-        class="w-full bg-indigo-500 text-white text-base font-medium py-3 rounded-lg
-               hover:bg-indigo-400 transition-colors cursor-pointer"
-      >
-        Log in
-      </button>
+      @if (errorMessage()) {
+        <p class="text-red-400 text-sm mt-2">{{ errorMessage() }}</p>
+      }
     </form>
 
     <p class="text-sm text-gray-400 text-center mt-5">
