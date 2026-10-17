@@ -1,0 +1,65 @@
+<div class="min-h-screen flex justify-center items-center bg-gray-950 px-4">
+  <div class="bg-gray-900 border border-gray-800 max-w-lg w-full p-8 rounded-xl shadow-lg">
+    <div class="flex gap-3 items-center mb-8">
+      <div class="bg-indigo-500/10 rounded-lg p-2.5">
+        <svg lucideLayoutGrid class="text-indigo-400 w-6 h-6"></svg>
+      </div>
+      <span class="text-xl font-semibold text-white">CollabWorkspace</span>
+    </div>
+
+    <p class="text-base text-gray-400 mb-7">Create your account</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="mb-5">
+      <label class="block text-sm text-gray-400 mb-2" for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        autocomplete="username"
+        placeholder="jane"
+        class="w-full mb-5 px-4 py-3 text-base bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+      />
+
+      <label class="block text-sm text-gray-400 mb-2" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        placeholder="name@company.com"
+        class="w-full mb-5 px-4 py-3 text-base bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+      />
+
+      <label class="block text-sm text-gray-400 mb-2" for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+        placeholder="••••••••"
+        class="w-full mb-6 px-4 py-3 text-base bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+      />
+
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid || isLoading()"
+        class="w-full bg-indigo-500 text-white text-base font-medium py-3 rounded-lg hover:bg-indigo-400 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        @if (isLoading()) {
+          <svg lucideLoader class="animate-spin w-5 h-5 mx-auto"></svg>
+        } @else {
+          Create account
+        }
+      </button>
+
+      @if (errorMessage()) {
+        <p class="text-red-400 text-sm mt-2">{{ errorMessage() }}</p>
+      }
+    </form>
+
+    <p class="text-sm text-gray-400 text-center mt-5">
+      Already have an account?
+      <a routerLink="/login" class="text-indigo-400 hover:underline">Log in</a>
+    </p>
+  </div>
+</div>
