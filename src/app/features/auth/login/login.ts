@@ -1,13 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { LucideLayoutGrid,LucideLoader } from '@lucide/angular';
+import { RouterLink } from '@angular/router';
+import { LucideLayoutGrid, LucideLoader } from '@lucide/angular';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
 
-
-
 @Component({
   selector: 'app-login',
-  imports: [ LucideLayoutGrid, LucideLoader, ReactiveFormsModule],
+  imports: [LucideLayoutGrid, LucideLoader, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
