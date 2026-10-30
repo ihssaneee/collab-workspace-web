@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
+import { Home } from './features/home/home';
+import { Shell } from './layout/shell/shell';
 
 export const routes: Routes = [
   {
@@ -11,4 +13,20 @@ export const routes: Routes = [
     path: 'register',
     component: Register,
   },
+  {
+    path: '',
+    component: Shell,
+    children: [
+      {
+        path: 'home',
+        component: Home,
+      },
+    ],
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  }
+
 ];
