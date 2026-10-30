@@ -1,0 +1,39 @@
+<aside class="w-64 shrink-0 h-screen bg-gray-900 border-r border-gray-800 p-4 flex flex-col gap-7 min-h-screen">
+
+  <div class="flex items-center gap-3 px-2">
+    <div class="bg-indigo-500/10 rounded-lg p-2">
+      <svg lucideLayoutGrid class="text-indigo-400 w-5 h-5"></svg>
+    </div>
+    <span class="text-lg font-semibold text-white">CollabWorkspace</span>
+  </div>
+
+  <nav class="flex flex-col gap-1">
+  @for (item of navItems; track item.route) {
+    <a [routerLink]="item.route"
+       routerLinkActive="bg-gray-800 text-white"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">
+      <svg [lucideIcon]="item.icon" class="w-4.5 h-4.5"></svg>
+      {{ item.label }}
+
+      @if (item.badgeKey && badges()[item.badgeKey] > 0) {
+        <span class="ml-auto bg-indigo-500 text-white text-xs font-semibold rounded-full px-2 py-0.5">
+          {{ badges()[item.badgeKey] }}
+        </span>
+      }
+    </a>
+  }
+</nav>
+
+  <div class="mt-auto flex items-center gap-3 px-2 pt-4 border-t border-gray-800">
+    <div class="w-9 h-9 rounded-full bg-indigo-900 text-indigo-200 flex items-center justify-center text-sm font-semibold">
+      {{ userInitials() }}
+    </div>
+    <div class="flex flex-col leading-tight">
+      <span class="text-white font-medium">{{ userName() }}</span>
+      <button type="button" (click)="logout()" class="text-sm text-gray-400 hover:text-white text-left">
+        Log out
+      </button>
+    </div>
+  </div>
+
+</aside>

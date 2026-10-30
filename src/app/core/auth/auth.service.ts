@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, finalize, shareReplay, tap, throwError } from 'rxjs';
+import { Observable, catchError, finalize, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { LoginRequest } from '../models/login-request.model';
 import { LoginResponse } from '../models/login-response.model';
 import { RegisterRequest } from '../models/register-request.model';
@@ -15,6 +15,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   private accessToken = signal<string | null>(null);
+  readonly currentUser = signal<CurrentUser | null>(null); 
   private refreshInFlight: Observable<LoginResponse> | null = null;
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
@@ -38,7 +39,12 @@ export class AuthService {
   }
 
   getMe(): Observable<CurrentUser> {
-    return this.http.get<CurrentUser>(`${environment.api}/auth/me`);
+    return this.http.get<CurrentUser>(`${environment.api}/auth/me`)
+    .pipe(
+      tap((user) => {
+        this.currentUser.set(user);
+      })
+    );
   }
 
   refresh(): Observable<LoginResponse> {
@@ -68,4 +74,10 @@ export class AuthService {
     this.refreshInFlight = refresh$;
     return refresh$;
   }
+
+  restoreSession(): Observable<CurrentUser> {
+  return this.refresh().pipe(
+    switchMap(() => this.getMe())
+  );
+}
 }
