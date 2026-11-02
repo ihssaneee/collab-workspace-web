@@ -16,7 +16,6 @@ export const authInterceptor: HttpInterceptorFn = (
 ) => {
   const authService = inject(AuthService);
 
-
   if (isCredentialRequest(req.url)) {
     return next(req);
   }
