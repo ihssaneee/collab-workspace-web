@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { LucideLayoutGrid, LucideLoader } from '@lucide/angular';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
+import { switchMap, finalize, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,7 @@ import { AuthService } from '../../../core/auth/auth.service';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-
-
 export class Login {
-
   private fb = inject(NonNullableFormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -23,8 +21,8 @@ export class Login {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  isLoading= signal(false);
-  errorMessage= signal('');
+  isLoading = signal(false);
+  errorMessage = signal('');
 
   onSubmit(): void {
     this.errorMessage.set('');
@@ -37,30 +35,34 @@ export class Login {
     const loginRequest = this.logInForm.getRawValue();
 
     this.isLoading.set(true);
-    this.authService.login(loginRequest).subscribe({
-      next: () => {
-        this.authService.getMe().subscribe({
-          next:(user)=>{
-            console.log('current user:', user);
-            this.isLoading.set(false);
+
+    this.authService
+      .login(loginRequest)
+      .pipe(
+        switchMap(() =>
+          this.authService.getMe().pipe(
+            catchError((error) => {
+              console.error('Fetch user data failed:', error);
+              this.errorMessage.set('Login successful, but failed to load user profile.');
+              return of(null);
+            }),
+          ),
+        ),
+        finalize(() => this.isLoading.set(false)),
+      )
+      .subscribe({
+        next: (user) => {
+          if (user) {
+            console.log('Current user loaded successfully:', user);
             this.router.navigate(['/']);
-            
-
-          },
-          error:(error) => {
-            console.error('Failed to get current user:', error);
-            this.isLoading.set(false);
-
+          } else {
+            this.router.navigate(['/error-or-setup-profile']);
           }
-        })
-        
-      },
-      error: (error) => {
-        console.error('Login failed:', error);
-        this.isLoading.set(false);
-        this.errorMessage.set('Invalid email or password');
-      }
-    });
+        },
+        error: (error) => {
+          console.error('Login request failed:', error);
+          this.errorMessage.set('Invalid email or password. Please try again.');
+        },
+      });
   }
-  
 }
